@@ -5,12 +5,28 @@ const cancelBtn = document.querySelector("#canceltBtn");
 const addLinkPanel = document.querySelector("#addLinkPanel");
 const linklist = document.querySelector("#linkList");
 const addedCategory = document.querySelector("#addCategories");
+const clear = document.querySelector(".clear");
 
 let linkCategories = [];
 let links = [];
 
 // not edit anything by default
 let editIndex = -1;
+let id;
+
+let data = localStorage.getItem("TODO");
+if (data) {
+  links = JSON.parse(data);
+  clear.classList.remove("clear");
+}
+
+let date = new Date();
+
+clear.addEventListener("click", () => {
+  console.log("clicking");
+  localStorage.clear();
+  location.reload();
+});
 
 displayLinks();
 
@@ -93,6 +109,15 @@ submitBtn.addEventListener("click", e => {
     editIndex = -1;
   }
 
+  if (links.length === 0) {
+    clear.classList.add("clear");
+  } else {
+    clear.classList.remove("clear");
+  }
+  localStorage.setItem("TODO", JSON.stringify(links));
+
+  console.log(localStorage);
+
   // push  new links to an array
   // links.unshift(newlink);
   // console.log("links", links);
@@ -114,6 +139,7 @@ function displayLinks() {
 
   for (let link of links) {
     let linkHTMLString = `
+    <div class="flex-item">
         <div class="link panel">
           <div class="link-options">
             <button class="btn-small" onClick="deleteLink(${index})">Delete</button>
@@ -124,13 +150,15 @@ function displayLinks() {
           <h1 class="header">${link.title}</h1>
           </a>
 
-          <p class="link-date">${Date.now()}</p>
+          <p class="link-date">${date}</p>
           <div class="categories">
             Categories:`;
     for (let category of link.categories) {
       linkHTMLString += `<span class="category">${category}</span>`;
     }
-    linkHTMLString += `  </div>
+    linkHTMLString += `
+            </div>
+            </div>
             </div>`;
 
     linklist.innerHTML += linkHTMLString;
@@ -143,6 +171,10 @@ function deleteLink(index) {
   console.log(links);
   // update the links on screen
   displayLinks();
+  if (links.length == 0) {
+    clear.classList.add("clear");
+  }
+  localStorage.setItem("TODO", JSON.stringify(links));
 }
 
 function editLink(index) {

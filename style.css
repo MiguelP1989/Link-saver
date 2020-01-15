@@ -17,7 +17,8 @@
 /* globals */
 
 body {
-  background-color: var(--light-accent-color);
+  /* background-color: var(--light-accent-color); */
+  background-color: black;
 }
 
 a {
@@ -39,13 +40,13 @@ a:hover {
 .header {
   font-size: 24px;
   margin-bottom: 10px;
-  color: grey;
+  color: black;
 }
 
 /* nav bar */
 #nav {
   height: 60px;
-  border: 2px solid hotpink;
+  /* border: 2px solid hotpink; */
   background-color: black;
   margin-bottom: 25px;
 }
@@ -61,11 +62,32 @@ a:hover {
 .nav-header {
   color: hotpink;
   font-size: 20px;
+  transition: all 0.25s;
+}
+
+.nav-header:hover {
+  letter-spacing: 7px;
+  transform: scale(1.05);
 }
 
 #addBtn {
   color: hotpink;
   font-size: 20px;
+  transition: all 0.3s;
+}
+#addBtn:hover {
+  cursor: pointer;
+  transform: scale(2);
+}
+
+.clear {
+  display: none;
+}
+
+@media only screen and (max-width: 786px) {
+  #nav {
+    height: 100px;
+  }
 }
 
 /* panel */
@@ -81,7 +103,7 @@ a:hover {
 .panel-heading {
   font-size: 24px;
   margin-bottom: 10px;
-  color: grey;
+  color: black;
 }
 
 /* form */
@@ -103,8 +125,9 @@ button {
   padding: 8px 22px;
   border-radius: 5px;
   border: 1px solid grey;
-  color: grey;
+  color: black;
   font-size: 16px;
+  transition: all 0.5s;
 }
 
 input[type="submit"]:hover,
@@ -119,10 +142,11 @@ button:hover {
   padding: 5px 10px;
 }
 
-/* //// Link */
+/* ////      Link    //////////////////// */
 
 .link {
   position: relative;
+  background: hotpink;
 }
 
 .link-options {
@@ -134,6 +158,15 @@ button:hover {
 .link-date {
   font-size: 14px;
   font-style: italic;
+  margin-bottom: 10px;
+}
+
+#linkList {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-item {
+  flex-basis: 100%;
 }
 
 .category {
@@ -149,4 +182,16 @@ button:hover {
 
 #addCategories {
   margin-bottom: 15px;
+}
+
+@media only screen and (min-width: 786px) {
+  .flex-item {
+    flex-basis: 50%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .flex-item {
+    flex-basis: 33%;
+  }
 }
