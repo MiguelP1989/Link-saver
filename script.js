@@ -9,6 +9,9 @@ const addedCategory = document.querySelector("#addCategories");
 let linkCategories = [];
 let links = [];
 
+// not edit anything by default
+let editIndex = -1;
+
 displayLinks();
 
 addBtn.addEventListener("click", e => {
@@ -25,10 +28,12 @@ cancelBtn.addEventListener("click", e => {
 // console.log(addLinkPanel.classList);
 function showFormPanel() {
   addLinkPanel.classList.remove("hidden");
+  displayLinkCategories();
 }
 
 function hideFormPanel() {
   addLinkPanel.classList.add("hidden");
+  clearLinkForm();
 }
 
 linkCategory.addEventListener("keydown", function(e) {
@@ -57,6 +62,14 @@ function displayLinkCategories() {
   }
 }
 
+function clearLinkForm() {
+  linkTitle.value = "";
+  linkURL.value = "";
+  linkCategory.value = "";
+  linkCategories = [];
+  addCategories.innerHTML = "";
+}
+
 submitBtn.addEventListener("click", e => {
   // stop from submitting
   e.preventDefault();
@@ -72,16 +85,20 @@ submitBtn.addEventListener("click", e => {
   };
   console.log("newlink", newlink);
 
-  // push links to an array
-  links.unshift(newlink);
+  if (editIndex === -1) {
+    // push new link to array
+    links.unshift(newlink);
+  } else {
+    links[editIndex] = newlink;
+    editIndex = -1;
+  }
 
-  console.log("links", links);
+  // push  new links to an array
+  // links.unshift(newlink);
+  // console.log("links", links);
 
   // empty the user input
-  linkTitle.value = "";
-  linkURL.value = "";
-  linkCategory.value = "";
-  linkCategories = [];
+  clearLinkForm();
 
   displayLinkCategories();
 
@@ -93,13 +110,14 @@ submitBtn.addEventListener("click", e => {
 function displayLinks() {
   console.log(linkList);
   linklist.innerHTML = "";
+  let index = 0;
 
   for (let link of links) {
     let linkHTMLString = `
         <div class="link panel">
           <div class="link-options">
-            <button class="btn-small">Delete</button>
-            <button class="btn-small">Edit</button>
+            <button class="btn-small" onClick="deleteLink(${index})">Delete</button>
+            <button class="btn-small" onClick="editLink(${index})">Edit</button>
           </div>
 
           <a href="${link.url}">
@@ -116,5 +134,24 @@ function displayLinks() {
             </div>`;
 
     linklist.innerHTML += linkHTMLString;
+    index++;
   }
+}
+function deleteLink(index) {
+  console.log("Deleting link of index", index);
+  links.splice(index, 1);
+  console.log(links);
+  // update the links on screen
+  displayLinks();
+}
+
+function editLink(index) {
+  console.log("edit link of index", index);
+  editIndex = index;
+
+  linkTitle.value = links[index].title;
+  linkURL.value = links[index].url;
+  linkCategories = links[index].categories;
+
+  showFormPanel();
 }
