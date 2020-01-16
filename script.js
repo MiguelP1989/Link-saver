@@ -6,6 +6,7 @@ const addLinkPanel = document.querySelector("#addLinkPanel");
 const linklist = document.querySelector("#linkList");
 const addedCategory = document.querySelector("#addCategories");
 const clear = document.querySelector(".clear");
+const addLinkContainer = document.querySelector("#addLinkContainer");
 
 let linkCategories = [];
 let links = [];
@@ -19,8 +20,6 @@ if (data) {
   links = JSON.parse(data);
   clear.classList.remove("clear");
 }
-
-let date = new Date();
 
 clear.addEventListener("click", () => {
   console.log("clicking");
@@ -43,12 +42,12 @@ cancelBtn.addEventListener("click", e => {
 
 // console.log(addLinkPanel.classList);
 function showFormPanel() {
-  addLinkPanel.classList.remove("hidden");
+  addLinkContainer.classList.remove("hidden");
   displayLinkCategories();
 }
 
 function hideFormPanel() {
-  addLinkPanel.classList.add("hidden");
+  addLinkContainer.classList.add("hidden");
   clearLinkForm();
 }
 
@@ -97,7 +96,8 @@ submitBtn.addEventListener("click", e => {
   const newlink = {
     title,
     url,
-    categories
+    categories,
+    date: new Date()
   };
   console.log("newlink", newlink);
 
@@ -150,7 +150,7 @@ function displayLinks() {
           <h1 class="header">${link.title}</h1>
           </a>
 
-          <p class="link-date">${date}</p>
+          <p class="link-date">${formatDate(link.date)}</p>
           <div class="categories">
             Categories:`;
     for (let category of link.categories) {
@@ -186,4 +186,10 @@ function editLink(index) {
   linkCategories = links[index].categories;
 
   showFormPanel();
+}
+
+function formatDate(date) {
+  return `${("0" + (date.getMonth() + 1)).slice(-2)}/${(
+    "0" + date.getDay()
+  ).slice(-2)}/${date.getFullYear()}`;
 }

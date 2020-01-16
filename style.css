@@ -43,6 +43,16 @@ a:hover {
   color: black;
 }
 
+.full-screen-opaque {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5;
+}
+
 /* nav bar */
 #nav {
   height: 60px;
@@ -118,6 +128,20 @@ a:hover {
   color: grey;
 }
 
+#addLinkContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#addLinkContainer.hidden {
+  display: none;
+}
+
+#addLinkPanel {
+  animation: slide-down 1s 0s ease-in;
+}
+
 /* buttons */
 
 input[type="submit"],
@@ -147,6 +171,9 @@ button:hover {
 .link {
   position: relative;
   background: hotpink;
+}
+
+.link:hover {
 }
 
 .link-options {
@@ -193,5 +220,22 @@ button:hover {
 @media only screen and (min-width: 1200px) {
   .flex-item {
     flex-basis: 33%;
+  }
+}
+
+/* //////   ANIMATION //// */
+
+@keyframes slide-down {
+  0% {
+    transform: translateY(-1000px);
+  }
+  90% {
+    transform: translateY(25px);
+  }
+  95% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px;);
   }
 }
