@@ -84,17 +84,26 @@ function clearLinkForm() {
   addCategories.innerHTML = "";
 }
 
+function checkUrl(url) {
+  if (!url.startsWith("http://") && !url.startsWith("https://") && url != "") {
+    url = "http://" + url;
+  }
+  return url;
+}
+
 submitBtn.addEventListener("click", e => {
   // stop from submitting
   e.preventDefault();
   console.log("submit press");
+
   const title = linkTitle.value;
-  const url = linkURL.value;
+  let url = linkURL.value;
+
   const categories = linkCategories;
   let date = new Date();
   const newlink = {
     title,
-    url,
+    url: checkUrl(url),
     categories,
     date: formatDate(date)
   };
