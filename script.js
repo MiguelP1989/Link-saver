@@ -19,6 +19,7 @@ let data = localStorage.getItem("TODO");
 if (data) {
   links = JSON.parse(data);
   clear.classList.remove("clear");
+  displayLinks();
 }
 
 clear.addEventListener("click", () => {
@@ -26,8 +27,6 @@ clear.addEventListener("click", () => {
   localStorage.clear();
   location.reload();
 });
-
-displayLinks();
 
 addBtn.addEventListener("click", e => {
   console.log("clicking");
@@ -54,11 +53,11 @@ function hideFormPanel() {
 linkCategory.addEventListener("keydown", function(e) {
   if (event.keyCode === 188) {
     event.preventDefault();
-    console.log("user press coma");
-    console.log("LINKCATEGORY VALUE", linkCategory.value);
+    // console.log("user press coma");
+    // console.log("LINKCATEGORY VALUE", linkCategory.value);
 
     linkCategories.push(linkCategory.value);
-    console.log("linkCategoriees", linkCategories);
+    // console.log("linkCategoriees", linkCategories);
 
     linkCategory.value = "";
 
@@ -92,12 +91,12 @@ submitBtn.addEventListener("click", e => {
   const title = linkTitle.value;
   const url = linkURL.value;
   const categories = linkCategories;
-
+  let date = new Date();
   const newlink = {
     title,
     url,
     categories,
-    date: new Date()
+    date: formatDate(date)
   };
   console.log("newlink", newlink);
 
@@ -114,22 +113,17 @@ submitBtn.addEventListener("click", e => {
   } else {
     clear.classList.remove("clear");
   }
-  localStorage.setItem("TODO", JSON.stringify(links));
-
-  console.log(localStorage);
-
   // push  new links to an array
   // links.unshift(newlink);
   // console.log("links", links);
 
   // empty the user input
   clearLinkForm();
-
   displayLinkCategories();
-
   // hide the form addLinkPanel
   hideFormPanel();
   displayLinks();
+  localStorage.setItem("TODO", JSON.stringify(links));
 });
 
 function displayLinks() {
@@ -150,7 +144,7 @@ function displayLinks() {
           <h1 class="header">${link.title}</h1>
           </a>
 
-          <p class="link-date">${formatDate(link.date)}</p>
+          <p class="link-date">${link.date}</p>
           <div class="categories">
             Categories:`;
     for (let category of link.categories) {
@@ -184,7 +178,6 @@ function editLink(index) {
   linkTitle.value = links[index].title;
   linkURL.value = links[index].url;
   linkCategories = links[index].categories;
-
   showFormPanel();
 }
 
